@@ -29,6 +29,7 @@ except:
     print("⚠️ Файл products.json не найден")
     print("Сначала запустите run_parser.py")
     products = []
+    
 
 # Функция для создания клавиатуры
 def create_keyboard():
@@ -58,7 +59,23 @@ def create_keyboard():
     keyboard.add(btn8, btn9)
     
     return keyboard
+# Функции для сортировки
+def get_discount_value(product):
+    """Возвращает значение скидки товара для сортировки"""
+    return product.get('discount', 0)
 
+def get_price_value(product):
+    """Возвращает значение цены товара для сортировки"""
+    return product.get('price', 0)
+
+def get_price_value_with_default(product):
+    """Возвращает значение цены товара с дефолтным большим значением"""
+    return product.get('price', 99999)
+
+# Функция-фильтр для декоратора
+def handle_all_messages(message):
+    """Функция, которая всегда возвращает True для обработки всех сообщений"""
+    return True
 # Команда /start
 @bot.message_handler(commands=['start'])
 def start_message(message):
@@ -434,3 +451,4 @@ if __name__ == "__main__":
     except Exception as e:
 
         print(f"❌ Ошибка: {e}")
+
