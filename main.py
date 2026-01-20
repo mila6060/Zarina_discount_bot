@@ -159,7 +159,7 @@ def show_sales(message):
     def get_discount_value(product):
       return product.get('discount', 0)
 
-sales.sort(key=get_discount_value, reverse=True)    
+    sales.sort(key=get_discount_value, reverse=True)    
     # Формируем ответ со ссылками
     text = "🔥 *ТОВАРЫ СО СКИДКОЙ:*\n\n"
     
@@ -317,9 +317,9 @@ def show_cheapest(message):
     
     # Сортируем по цене
     def get_price_value_with_default(product):
-    return product.get('price', 99999)
+     return product.get('price', 99999)
 
-with_price.sort(key=get_price_value_with_default)    
+    with_price.sort(key=get_price_value_with_default)    
     show_product_list(message, with_price[:10], "💰 Самые дешевые товары")
 
 def show_most_expensive(message):
@@ -331,12 +331,9 @@ def show_most_expensive(message):
             with_price.append(product)
     
     # Сортируем по цене в обратном порядке
-     
+    with_price.sort(key=get_price_value, reverse=True)
     show_product_list(message, with_price[:10], "💎 Самые дорогие товары")
-def get_price_value(product):
-    return product.get('price', 0)
-
-with_price.sort(key=get_price_value, reverse=True)
+   
 def show_by_price(message, max_price):
     """Показать товары до указанной цены со ссылками"""
     filtered = []
@@ -451,4 +448,3 @@ if __name__ == "__main__":
     except Exception as e:
 
         print(f"❌ Ошибка: {e}")
-
