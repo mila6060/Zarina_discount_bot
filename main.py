@@ -58,6 +58,23 @@ def create_keyboard():
     keyboard.add(btn8, btn9)
     
     return keyboard
+# Функции для сортировки 
+def get_discount_value(product):
+    """Возвращает значение скидки товара для сортировки"""
+    return product.get('discount', 0)
+
+def get_price_value(product):
+    """Возвращает значение цены товара для сортировки"""
+    return product.get('price', 0)
+
+def get_price_value_with_default(product):
+    """Возвращает значение цены товара с дефолтным большим значением"""
+    return product.get('price', 99999)
+
+# Функция-фильтр для декоратора
+def handle_all_messages(message):
+    """Функция, которая всегда возвращает True для обработки всех сообщений"""
+    return True
 
 # Команда /start
 @bot.message_handler(commands=['start'])
@@ -139,7 +156,7 @@ def show_sales(message):
         return
     
     # Сортируем по скидке (самые большие сначала)
-    sales.sort(key=lambda x: x.get('discount', 0), reverse=True)
+    sales.sort(key=get_discount_value, reverse=True)
     
     # Формируем ответ со ссылками
     text = "🔥 *ТОВАРЫ СО СКИДКОЙ:*\n\n"
@@ -297,7 +314,7 @@ def show_cheapest(message):
             with_price.append(product)
     
     # Сортируем по цене
-    with_price.sort(key=lambda x: x.get('price', 99999))
+    with_price.sort(key=get_price_value_with_default)
     
     show_product_list(message, with_price[:10], "💰 Самые дешевые товары")
 
@@ -310,7 +327,7 @@ def show_most_expensive(message):
             with_price.append(product)
     
     # Сортируем по цене в обратном порядке
-    with_price.sort(key=lambda x: x.get('price', 0), reverse=True)
+    with_price.sort(key=get_price_value, reverse=True)
     
     show_product_list(message, with_price[:10], "💎 Самые дорогие товары")
 
@@ -327,7 +344,7 @@ def show_by_price(message, max_price):
         return
     
     # Сортируем по цене
-    filtered.sort(key=lambda x: x.get('price', 0))
+    filtered.sort(key=get_price_value)
     
     show_product_list(message, filtered, f"💰 Товары до {max_price} руб")
 
@@ -354,8 +371,7 @@ def search_products(message, search_text):
     return False
 
 # Обработка всех текстовых сообщений
-# Заменяем эту строку в декораторе:
-# @bot.message_handler(func=lambda message: True)
+
 
 def handle_all_messages(message):
     """Функция, которая всегда возвращает True для обработки всех сообщений"""
